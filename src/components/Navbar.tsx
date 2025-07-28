@@ -4,7 +4,15 @@ import { useSession } from 'next-auth/react';
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { logout } from '@/src/lib/auth';
+// import { logout } from '@/src/lib/auth';
+import { signOut } from 'next-auth/react';
+
+const logout = () => {
+    signOut({ redirect: false }).then(() => {
+        window.location.href = "/auth/signin"; // garantált újratöltés
+    })
+}
+
 
 const Navbar = () => {
     const { data: session } = useSession();
@@ -27,10 +35,10 @@ const Navbar = () => {
                             <>
                                 <Link href={"/jobs/post"} className='text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium'>Post a Job</Link>
                                 <Link href={"/dashboard"} className='text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium'>Dashboard</Link>
-                            <button onClick={logout} className='text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium'>Sign Out</button>
+                                <button onClick={logout} className='text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium cursor-pointer'>Sign Out</button>
                             </>
                         ) : (
-                            <Link href={"/auth/signin"} className='text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium'>Sign In</Link>
+                            <Link href={"/auth/signin"} className='text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium cursor-pointer'>Sign In</Link>
                         )}
                     </div>
 
